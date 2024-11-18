@@ -19,14 +19,14 @@ export const createDonation = async (donationData) => {
 }
 
 // claim donation by id
-// export const claimDonation = async (id) => {
-//   try {
-//     const response = await apiClient.post(`/Donations/${id}/claim`);
-//     return response.data;
-//   } catch (error) {
-//     throw error.response ? error.response.data : error;
-//   }
-// }
+export const claimDonation = async (id) => {
+  try {
+    const response = await apiClient.post(`/Donations/${id}/claim`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+}
 
 const cleanData = (data) => {
   return data.map((claim) => ({
