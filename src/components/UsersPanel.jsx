@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { claimedDonations } from '../api/donationService';
+import { fetchClaimedDonations } from '../api/donationService';
 import { Timeline, Button } from 'flowbite-react';
 import { showToast } from '../utils/toastNotifications';
 import { HiArrowNarrowRight } from 'react-icons/hi';
@@ -10,7 +10,7 @@ const UsersPanel = () => {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const data = await claimedDonations();
+        const data = await fetchClaimedDonations();
         setDonations(data);
       } catch (error) {
         showToast(`Failed to fetch donations: ${error.message}`, 'error');
@@ -29,11 +29,11 @@ const UsersPanel = () => {
             <Timeline.Point />
             <Timeline.Content>
               <Timeline.Time>{new Date(donation.claimedAt).toLocaleString()}</Timeline.Time>
-              <Timeline.Title>{donation.donation.itemName}</Timeline.Title>
+              <Timeline.Title>{donation.itemName}</Timeline.Title>
               <Timeline.Body>
-                <p>{donation.donation.description}</p>
-                <p>Quantity: {donation.donation.quantity}</p>
-                <p>Donor: {donation.donation.donor.username}</p>
+                <p>{donation.description}</p>
+                <p>Quantity: {donation.quantity}</p>
+                <p>Donor: {donation.donorUsername}</p>
               </Timeline.Body>
               <Button color="gray">
                 Learn More

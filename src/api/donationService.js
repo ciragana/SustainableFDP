@@ -41,20 +41,22 @@ const cleanData = (data) => {
   return data.map((claim) => ({
     id: claim.id,
     donationId: claim.donationId,
-    itemName: claim.itemName,
-    description: claim.description,
-    quantity: claim.quantity,
-    donorEmail: claim.donor.email,
+    itemName: claim.donation.itemName,
+    description: claim.donation.description,
+    quantity: claim.donation.quantity,
+    donorEmail: claim.donation.donor.email,
+    donorUsername: claim.donation.donor.username,
     claimedAt: claim.claimedAt,
   }));
 };
 
-const fetchClaimedDonations = async () => {
+export const fetchClaimedDonations = async () => {
   try {
     const response = await claimedDonations(); // API call
     const cleanedDonations = cleanData(response);
-    setDonations(cleanedDonations); // Update state with cleaned data
+    return cleanedDonations; // Return cleaned data
   } catch (error) {
     console.error('Failed to fetch claimed donations:', error);
+    throw error;
   }
 };
