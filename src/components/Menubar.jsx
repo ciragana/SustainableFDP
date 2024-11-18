@@ -15,7 +15,7 @@ function Menubar({ logo }) {
     <>
       <MegaMenu>
         <div className=" w-full flex max-w-screen-xl flex-wrap items-center justify-between p-4 md:space-x-8">
-          <Navbar.Brand href="/dashboard">
+          <Navbar.Brand href="/">
             <img alt="" src={logo} className="mr-3 h-6 sm:h-9" />
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">SustainableFDP</span>
           </Navbar.Brand>
