@@ -38,17 +38,20 @@ export const claimedDonations = async () => {
 };
 
 const cleanData = (data) => {
-  return data.map((claim) => ({
-    id: claim.id,
-    donationId: claim.donationId,
-    itemName: claim.donation.itemName,
-    description: claim.donation.description,
-    quantity: claim.donation.quantity,
-    donorEmail: claim.donation.donor.email,
-    donorUsername: claim.donation.donor.username,
-    claimedAt: claim.claimedAt,
-  }));
+  return data
+    .filter((claim) => claim.donation) // Ensure the donation exists
+    .map((claim) => ({
+      id: claim.id,
+      donationId: claim.donationId,
+      itemName: claim.donation?.itemName || 'Unknown Item',
+      description: claim.donation?.description || 'No description provided',
+      quantity: claim.donation?.quantity || 0,
+      donorEmail: claim.donation?.donor?.email || 'Unknown Donor',
+      donorUsername: claim.donation?.donor?.username || 'Unknown Username',
+      claimedAt: claim.claimedAt,
+    }));
 };
+
 
 export const fetchClaimedDonations = async () => {
   try {
