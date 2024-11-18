@@ -20,7 +20,7 @@ const DonateForm = () => {
       showToast('Donation created successfully!', 'success');
       navigate('/dashboard'); // Redirect after success
     } catch (error) {
-      showToast(`Failed to create donation: ${error.message}`, 'error');
+      showToast(`Failed to create donation: Not Authorized`, 'error');
     }
   };
 

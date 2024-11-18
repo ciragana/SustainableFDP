@@ -27,7 +27,7 @@ const AdminPanel = () => {
 
         setUsers(filteredUsers);
       } catch (error) {
-        showToast(`Failed to fetch users: ${error.message}`, 'error');
+        showToast(` You do not have Admin priveleges `, 'error');
       }
     };
 
