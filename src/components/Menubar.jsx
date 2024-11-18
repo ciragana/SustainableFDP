@@ -54,7 +54,7 @@ function Menubar({ logo }) {
           </div>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            {!isAuthenticated && (
+
               <>
                 <Link className='mr-1 rounded-lg py-2 text-sm font-medium text-gray-800  dark:text-white hover:text-blue-700  dark:hover:text-gray-400 ' to="/my-donations">My Claims</Link>
                 <Link
@@ -64,7 +64,7 @@ function Menubar({ logo }) {
                 </Link>
                 <Link className='mr-1 rounded-lg py-2  text-sm font-medium text-gray-800  focus:outline-none dark:text-white hover:text-blue-700 dark:hover:text-gray-400 ' to="/admin">Admin</Link>
               </>
-            )}
+          
           </Navbar.Collapse>
         </div>
       </MegaMenu>
