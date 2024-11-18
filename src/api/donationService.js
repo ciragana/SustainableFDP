@@ -59,20 +59,13 @@ const resolveReferences = (data) => {
 };
 
 const cleanData = (data) => {
-  const resolvedData = resolveReferences(data);
-  return resolvedData
-    .filter((claim) => claim.donation) // Ensure the donation exists
-    .map((claim) => ({
-      id: claim.id,
-      donationId: claim.donationId,
-      itemName: claim.donation?.itemName || 'Unknown Item',
-      description: claim.donation?.description || 'No description provided',
-      quantity: claim.donation?.quantity || 0,
-      donorEmail: claim.donation?.donor?.email || 'Unknown Donor',
-      donorUsername: claim.donation?.donor?.username || 'Unknown Username',
-      claimedAt: claim.claimedAt,
-    }));
+  return data.map((donation) => ({
+    id: donation.id,             // Donation ID
+    donorId: donation.donorId,   // Donor ID
+    createdAt: donation.createdAt, // Creation Date
+  }));
 };
+
 
 export const fetchClaimedDonations = async () => {
   try {

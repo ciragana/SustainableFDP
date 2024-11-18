@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchClaimedDonations, claimedDonations } from '../api/donationService';
-import { Timeline, Button } from 'flowbite-react';
+import { fetchClaimedDonations } from '../api/donationService';
+import { Timeline } from 'flowbite-react';
 import { showToast } from '../utils/toastNotifications';
-import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const UsersPanel = () => {
   const [donations, setDonations] = useState([]);
@@ -16,7 +15,7 @@ const UsersPanel = () => {
       } catch (error) {
         showToast(`Failed to fetch donations: ${error.message}`, 'error');
       }
-    }
+    };
 
     claimedDonations();
   }, []);
@@ -30,17 +29,11 @@ const UsersPanel = () => {
             <Timeline.Item key={donation.id}>
               <Timeline.Point />
               <Timeline.Content>
-                <Timeline.Time>{new Date(donation.claimedAt).toLocaleString()}</Timeline.Time>
-                <Timeline.Title>{donation.itemName}</Timeline.Title>
+                <Timeline.Time>{new Date(donation.createdAt).toLocaleString()}</Timeline.Time>
+                <Timeline.Title>Donation ID: {donation.id}</Timeline.Title>
                 <Timeline.Body>
-                  <p>{donation.description}</p>
-                  <p>Quantity: {donation.quantity}</p>
-                  <p>Donor: {donation.donorUsername}</p>
+                  <p>Donor ID: {donation.donorId}</p>
                 </Timeline.Body>
-                <Button color="gray">
-                  Learn More
-                  <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                </Button>
               </Timeline.Content>
             </Timeline.Item>
           ))
