@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchClaimedDonations } from '../api/donationService';
+import { fetchClaimedDonations, claimedDonations } from '../api/donationService';
 import { Timeline, Button } from 'flowbite-react';
 import { showToast } from '../utils/toastNotifications';
 import { HiArrowNarrowRight } from 'react-icons/hi';
@@ -8,17 +8,17 @@ const UsersPanel = () => {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
-    const fetchDonations = async () => {
+    const claimedDonations = async () => {
       try {
         const data = await fetchClaimedDonations();
+        console.log(data);
         setDonations(data);
-        console.log('Claimed donations:', data);
       } catch (error) {
         showToast(`Failed to fetch donations: ${error.message}`, 'error');
       }
-    };
+    }
 
-    fetchDonations();
+    claimedDonations();
   }, []);
 
   return (
