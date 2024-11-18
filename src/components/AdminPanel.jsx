@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers } from '../api/adminService';
+import { getUsers, getDonationCount, getClaimedDonationCount } from '../api/adminService';
 import { Card } from 'flowbite-react';
 import { showToast } from '../utils/toastNotifications';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState({ Admin: [], Donor: [], User: [] });
+  const [donationCounts, setDonationCounts] = useState({});
+  const [claimedDonationCounts, setClaimedDonationCounts] = useState({});
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -29,7 +31,27 @@ const AdminPanel = () => {
       }
     };
 
+    const fetchDonationCounts = async () => {
+      try {
+        const data = await getDonationCount();
+        setDonationCounts(data);
+      } catch (error) {
+        showToast(`Failed to fetch donation counts: ${error.message}`, 'error');
+      }
+    };
+
+    const fetchClaimedDonationCounts = async () => {
+      try {
+        const data = await getClaimedDonationCount();
+        setClaimedDonationCounts(data);
+      } catch (error) {
+        showToast(`Failed to fetch claimed donation counts: ${error.message}`, 'error');
+      }
+    };
+
     fetchUsers();
+    fetchDonationCounts();
+    fetchClaimedDonationCounts();
   }, []);
 
   return (
@@ -47,6 +69,24 @@ const AdminPanel = () => {
               </Card>
             ))}
           </div>
+        ))}
+      </div>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Daily Donation Counts</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Object.entries(donationCounts).map(([date, count]) => (
+          <Card key={date} className="bg-white dark:bg-gray-800 mb-4">
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{date}</h5>
+            <p className="text-gray-700 dark:text-gray-400">Donations: {count}</p>
+          </Card>
+        ))}
+      </div>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Daily Claimed Donation Counts</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Object.entries(claimedDonationCounts).map(([date, count]) => (
+          <Card key={date} className="bg-white dark:bg-gray-800 mb-4">
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{date}</h5>
+            <p className="text-gray-700 dark:text-gray-400">Claims: {count}</p>
+          </Card>
         ))}
       </div>
     </div>
