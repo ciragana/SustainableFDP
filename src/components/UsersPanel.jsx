@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { fetchClaimedDonations } from '../api/donationService';
-import { Timeline } from 'flowbite-react';
+import { Timeline, Button } from 'flowbite-react';
 import { showToast } from '../utils/toastNotifications';
+import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const UsersPanel = () => {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
-    const claimedDonations = async () => {
+    const fetchDonations = async () => {
       try {
         const data = await fetchClaimedDonations();
         console.log(data);
@@ -17,7 +18,7 @@ const UsersPanel = () => {
       }
     };
 
-    claimedDonations();
+    fetchDonations();
   }, []);
 
   return (
@@ -34,6 +35,10 @@ const UsersPanel = () => {
                 <Timeline.Body>
                   <p>Donor ID: {donation.donorId}</p>
                 </Timeline.Body>
+                <Button color="gray">
+                  Learn More
+                  <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                </Button>
               </Timeline.Content>
             </Timeline.Item>
           ))

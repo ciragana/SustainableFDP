@@ -59,13 +59,13 @@ const resolveReferences = (data) => {
 };
 
 const cleanData = (data) => {
-  return data.map((donation) => ({
-    id: donation.id,             // Donation ID
-    donorId: donation.donorId,   // Donor ID
-    createdAt: donation.createdAt, // Creation Date
+  const resolvedData = resolveReferences(data);
+  return resolvedData.map((claim) => ({
+    id: claim.donation.id,
+    donorId: claim.donation.donorId,
+    createdAt: claim.donation.createdAt,
   }));
 };
-
 
 export const fetchClaimedDonations = async () => {
   try {
