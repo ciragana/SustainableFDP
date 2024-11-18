@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { showToast } from '../utils/toastNotifications';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button } from 'flowbite-react';
-import { getDonations, claimDonation } from '../api/donationService';
+import { getDonations, fetchClaimedDonations, claimDonation } from '../api/donationService';
 import { AuthContext } from '../context/AuthContext';
 
 const Dashboard = () => {
