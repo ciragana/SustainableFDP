@@ -44,9 +44,9 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <PrivateRoute>
+              
                 <Dashboard />
-              </PrivateRoute>
+
             }
           />
           <Route
@@ -57,7 +57,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/" element={<Navigate to="/login" />} /> {/* Redirect to login by default */}
+          <Route path="/" element={<Navigate to="/dashboard" />} /> {/* Redirect to login by default */}
         </Routes>
         <RFooter logo={logo} />
         <ToastContainer />

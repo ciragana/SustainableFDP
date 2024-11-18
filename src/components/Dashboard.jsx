@@ -43,6 +43,15 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="bg-green-800 text-white py-16 px-6 md:px-12 lg:px-20 flex flex-col items-center text-center rounded-lg shadow-lg mb-8">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">SustainableFDP</h1>
+        <p className="text-lg md:text-xl mb-8 max-w-2xl">
+          Join us in making a difference! Our platform connects restaurants, charities, and individuals to manage food donations and reduce waste, ensuring resources reach those who need them the most.
+        </p>
+        <Button className="bg-white text-green-800 font-semibold py-2 px-6 rounded-lg hover:bg-green-700 hover:text-white transition duration-300">
+          Get Started
+        </Button>
+      </div>
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {donations.map((donation) => (
