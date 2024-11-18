@@ -30,7 +30,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
-          <Route path="/donate" element={<DonateForm />} />
+          <Route path="/donate" element={
+            <PrivateRoute>
+              <DonateForm />
+            </PrivateRoute>
+          } />
           <Route
             path="/dashboard"
             element={
