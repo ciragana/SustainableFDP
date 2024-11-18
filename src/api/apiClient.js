@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5194/api',
+  baseURL: 'https://sustainablefdpapi-e7ahcqbxh5e6fwgt.canadacentral-01.azurewebsites.net',
   headers: {
     'Content-Type': 'application/json',
   },
