@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, MegaMenu, Navbar } from 'flowbite-react';
+import { Button, MegaMenu, Navbar, Avatar } from 'flowbite-react';
 import { DarkThemeToggle, Flowbite } from 'flowbite-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,10 @@ function Menubar({ logo }) {
     localStorage.removeItem('role');
     navigate('/login');
     window.location.reload(); // Reload the page after logging out
+  };
+
+  const getInitials = (role) => {
+    return role ? role.charAt(0).toUpperCase() : '';
   };
 
   return (
@@ -50,7 +54,8 @@ function Menubar({ logo }) {
 
             {isAuthenticated && (
               <>
-                <span className="mr-4 text-sm font-medium text-gray-800 dark:text-white">
+                <span className="mr-4 text-sm font-medium text-gray-800 dark:text-white flex items-center">
+                  <Avatar placeholderInitials={getInitials(role)} rounded />
                   {role}
                 </span>
                 <Button
