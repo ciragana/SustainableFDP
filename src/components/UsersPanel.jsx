@@ -20,6 +20,8 @@ const UsersPanel = () => {
     fetchDonations();
   }, []);
 
+  
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">My Claimed Donations</h1>
@@ -30,11 +32,11 @@ const UsersPanel = () => {
               <Timeline.Point />
               <Timeline.Content>
                 <Timeline.Time>{new Date(donation.claimedAt).toLocaleString()}</Timeline.Time>
-                <Timeline.Title>{donation.itemName}</Timeline.Title>
+                <Timeline.Title>{donation.donation.itemName}</Timeline.Title>
                 <Timeline.Body>
-                  <p>{donation.description}</p>
-                  <p>Quantity: {donation.quantity}</p>
-                  <p>Donor: {donation.donorUsername}</p>
+                  <p>{donation.donation.description}</p>
+                  <p>Quantity: {donation.donation.quantity}</p>
+                  <p>Donor: {donation.donation.donor.email}</p>
                 </Timeline.Body>
                 <Button color="gray">
                   Learn More
@@ -47,7 +49,6 @@ const UsersPanel = () => {
           <p>No claimed donations available.</p>
         )}
       </Timeline>
-
     </div>
   );
 };
