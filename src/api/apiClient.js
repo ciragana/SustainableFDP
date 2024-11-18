@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const apiClient = axios.create({
   baseURL: 'https://sustainablefdpapi-e7ahcqbxh5e6fwgt.canadacentral-01.azurewebsites.net/api',
+  
   headers: {
     'Content-Type': 'application/json',
   },

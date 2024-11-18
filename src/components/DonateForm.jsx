@@ -1,81 +1,76 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Button, Label, TextInput, Textarea } from 'flowbite-react';
-import { createDonation } from '../api/donationService';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { showToast } from '../utils/toastNotifications';
+import { useNavigate } from 'react-router-dom';
+import { Card, Button } from 'flowbite-react';
+import { getDonations, claimDonation, claimedDonations } from '../api/donationService';
+import { AuthContext } from '../context/AuthContext';
 
-const DonateForm = () => {
-  const [formData, setFormData] = useState({ itemName: '', description: '', quantity: '' });
-  const navigate = useNavigate();
+const Dashboard = () => {
+  const [donations, setDonations] = useState([]);
+  const { authState } = useContext(AuthContext);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    const fetchClaimedDonations = async () => {
+      try {
+        const data = await claimedDonations();
+        setDonations(data); // Ensure data is cleaned before setting
+        console.log(data);
+      } catch (error) {
+        showToast(`Failed to fetch claimed donations: ${error.message}`, 'error');
+      }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    fetchClaimedDonations();
+  }, []);
+
+  // log the role of the user
+  console.log('Role: ');
+  console.log(authState.role);
+
+  const handleClaimDonation = async (id) => {
     try {
-      await createDonation(formData);
-      showToast('Donation created successfully!', 'success');
-      navigate('/dashboard'); // Redirect after success
+      await claimDonation(id);
+      showToast('Donation claimed successfully!', 'success');
+      // Optionally, update the state to reflect the claimed donation
+      setDonations((prevDonations) =>
+        prevDonations.filter((donation) => donation.id !== id)
+      );
     } catch (error) {
-      showToast(`Failed to create donation: Not Authorized`, 'error');
+      showToast(`Failed to claim donation: ${error.message}`, 'error');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Card className="max-w-md w-full bg-white dark:bg-gray-800">
-        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
-          Create a Donation
-        </h5>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <Label htmlFor="itemName" value="ItemName" />
-            <TextInput
-              id="itemName"
-              name="itemName"
-              type="text"
-              placeholder="Donation Title"
-              value={formData.itemName}
-              onChange={handleChange}
-              required
-              className="dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-          <div>
-            <Label htmlFor="description" value="Description" />
-            <Textarea
-              id="description"
-              name="description"
-              placeholder="Donation Description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              className="dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-          <div>
-            <Label htmlFor="quantity" value="Amount" />
-            <TextInput
-              id="quantity"
-              name="quantity"
-              type="number"
-              placeholder="Donation Amount/Quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              required
-              className="dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-          <Button type="submit" className="w-full">
-            Submit Donation
-          </Button>
-        </form>
-      </Card>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="bg-green-800 text-white py-16 px-6 md:px-12 lg:px-20 flex flex-col items-center text-center rounded-lg shadow-lg mb-8">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">SustainableFDP</h1>
+        <p className="text-lg md:text-xl mb-8 max-w-2xl">
+          Join us in making a difference! Our platform connects restaurants, charities, and individuals to manage food donations and reduce waste, ensuring resources reach those who need them the most.
+        </p>
+        <Button className="bg-white text-green-800 font-semibold py-2 px-6 rounded-lg hover:bg-green-700 hover:text-white transition duration-300">
+          Get Started
+        </Button>
+      </div>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {donations.map((donation) => (
+          <Card key={donation.id} className="bg-white dark:bg-gray-800">
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{donation.itemName}</h5>
+            <p className="text-gray-700 dark:text-gray-400">{donation.description}</p>
+            <p className="text-gray-700 dark:text-gray-400">Quantity: {donation.quantity}</p>
+            <p className="text-gray-700 dark:text-gray-400">Claimed: {donation.isClaimed ? 'Yes' : 'No'}</p>
+            <p className="text-gray-700 dark:text-gray-400">Donated By: {donation.donor.email}</p>
+            {authState.role === 'User' && ( // Conditionally render the button if the user's role is "User"
+              <Button className="mt-2" onClick={() => handleClaimDonation(donation.id)}>
+                Claim Donation
+              </Button>
+            )}
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default DonateForm;
+export default Dashboard;
