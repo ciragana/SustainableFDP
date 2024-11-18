@@ -16,15 +16,18 @@ const handleChange = (e) => {
   setCredentials({ ...credentials, [e.target.name]: e.target.value });
 };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    await login(credentials, navigate);
-    showToast('Login successful!', 'success');
-  } catch (error) {
-    showToast(`Login failed: ${error.message}`, 'error');
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(credentials, navigate);
+      showToast('Login successful!', 'success');
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000); // Delay of 3 seconds
+    } catch (error) {
+      showToast(`Login failed: ${error.message}`, 'error');
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-700">
