@@ -32,14 +32,14 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/my-donations" element={
-            <PrivateRoute>
-              <UsersPanel />
-            </PrivateRoute>
+
+            <UsersPanel />
+
           } />
           <Route path="/donate" element={
-            <PrivateRoute>
-              <DonateForm />
-            </PrivateRoute>
+
+            <DonateForm />
+
           } />
           <Route
             path="/dashboard"
