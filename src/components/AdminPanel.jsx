@@ -13,21 +13,19 @@ const AdminPanel = () => {
         const filteredUsers = { Admin: [], Donor: [], User: [] };
 
         // Categorize users based on their roles
-        Object.values(data).forEach((userList) => {
-          userList.forEach((user) => {
-            if (user.role === 0) {
-              filteredUsers.Admin.push(user);
-            } else if (user.role === 1) {
-              filteredUsers.Donor.push(user);
-            } else if (user.role === 2) {
-              filteredUsers.User.push(user);
-            }
-          });
-        });
+        if (data.Admin?.$values) {
+          filteredUsers.Admin = data.Admin.$values;
+        }
+        if (data.Donor?.$values) {
+          filteredUsers.Donor = data.Donor.$values;
+        }
+        if (data.User?.$values) {
+          filteredUsers.User = data.User.$values;
+        }
 
         setUsers(filteredUsers);
       } catch (error) {
-        showToast(` You do not have Admin priveleges `, 'error');
+        showToast(`You do not have Admin privileges`, 'error');
       }
     };
 
