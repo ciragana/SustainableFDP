@@ -25,7 +25,7 @@ const Dashboard = () => {
   }, []);
 
   // log the role of the user
-  console.log("Role: ");
+  console.log('Role: ');
   console.log(authState.role);
 
   const handleClaimDonation = async (id) => {
@@ -56,12 +56,12 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {donations.map((donation) => (
           <Card key={donation.id} className="bg-white dark:bg-gray-800">
-            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{donation.donation.itemName}</h5>
-            <p className="text-gray-700 dark:text-gray-400">{donation.donation.description}</p>
-            <p className="text-gray-700 dark:text-gray-400">Quantity: {donation.donation.quantity}</p>
-            <p className="text-gray-700 dark:text-gray-400">Claimed: {donation.donation.isClaimed ? 'Yes' : 'No'}</p>
-            <p className="text-gray-700 dark:text-gray-400">Donated By: {donation.donation.donor.email}</p>
-            {authState.role === "User" && ( // Conditionally render the button if the user's role is "User"
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{donation?.donation?.itemName}</h5>
+            <p className="text-gray-700 dark:text-gray-400">{donation?.donation?.description}</p>
+            <p className="text-gray-700 dark:text-gray-400">Quantity: {donation?.donation?.quantity}</p>
+            <p className="text-gray-700 dark:text-gray-400">Claimed: {donation?.donation?.isClaimed ? 'Yes' : 'No'}</p>
+            <p className="text-gray-700 dark:text-gray-400">Donated By: {donation?.donation?.donor?.email}</p>
+            {authState.role === 'User' && ( // Conditionally render the button if the user's role is "User"
               <Button className="mt-2" onClick={() => handleClaimDonation(donation.id)}>
                 Claim Donation
               </Button>
