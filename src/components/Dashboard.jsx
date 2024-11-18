@@ -10,18 +10,31 @@ const Dashboard = () => {
   const [donations, setDonations] = useState([]);
   const { authState } = useContext(AuthContext);
 
+  // useEffect(() => {
+  //   const fetchDonations = async () => {
+  //     try {
+  //       const data = await getDonations();
+  //       setDonations(data);
+  //       console.log(data);
+  //     } catch (error) {
+  //       showToast(`Failed to fetch donations: ${error.message}`, 'error');
+  //     }
+  //   };
+
+  //   fetchDonations();
+  // }, []);
+
   useEffect(() => {
-    const fetchDonations = async () => {
+    const fetchClaimedDonations = async () => {
       try {
-        const data = await getDonations();
-        setDonations(data);
-        console.log(data);
+        const data = await claimedDonations();
+        setDonations(data); // Ensure data is cleaned before setting
       } catch (error) {
-        showToast(`Failed to fetch donations: ${error.message}`, 'error');
+        showToast(`Failed to fetch claimed donations: ${error.message}`, 'error');
       }
     };
 
-    fetchDonations();
+    fetchClaimedDonations();
   }, []);
 
   // log the role of the user
