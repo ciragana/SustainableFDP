@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Button, Card } from 'flowbite-react';
-import { getDonations, claimDonation, claimedDonations } from '../api/donationService';
+import { getDonations, claimDonation } from '../api/donationService';
 import { showToast } from '../utils/toastNotifications';
 import { AuthContext } from '../context/AuthContext';
 
@@ -12,8 +12,9 @@ const Dashboard = () => {
     const fetchDonations = async () => {
       try {
         const data = await getDonations(); // Fetch available donations
-        setDonations(data.$values); // Access the donations inside `$values`
-        console.log(data);
+        const resolvedData = resolveReferences(data.$values); // Resolve references
+        setDonations(resolvedData); // Set the resolved donations
+        console.log(resolvedData);
       } catch (error) {
         showToast(`Failed to fetch donations: ${error.message}`, 'error');
       }
@@ -21,6 +22,26 @@ const Dashboard = () => {
 
     fetchDonations();
   }, []);
+
+  const resolveReferences = (data) => {
+    const donorMap = new Map();
+
+    // First pass: create a map of donors
+    data.forEach((donation) => {
+      if (donation.donor && !donation.donor.$ref) {
+        donorMap.set(donation.donor.$id, donation.donor);
+      }
+    });
+
+    // Second pass: resolve references
+    data.forEach((donation) => {
+      if (donation.donor && donation.donor.$ref) {
+        donation.donor = donorMap.get(donation.donor.$ref);
+      }
+    });
+
+    return data;
+  };
 
   const handleClaimDonation = async (id) => {
     try {
