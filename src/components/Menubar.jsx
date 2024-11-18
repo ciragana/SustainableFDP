@@ -17,6 +17,7 @@ function Menubar({ logo }) {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     navigate('/login');
+    window.location.reload(); // Reload the page after logging out
   };
 
   return (
