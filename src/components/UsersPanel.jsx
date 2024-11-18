@@ -12,6 +12,7 @@ const UsersPanel = () => {
       try {
         const data = await fetchClaimedDonations();
         setDonations(data);
+        console.log('Claimed donations:', data);
       } catch (error) {
         showToast(`Failed to fetch donations: ${error.message}`, 'error');
       }
