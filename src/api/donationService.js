@@ -61,8 +61,8 @@ const resolveReferences = (data) => {
 const cleanData = (data) => {
   return data.map((donation) => ({
     id: donation.id,             // Donation ID
-    donorId: donation.donorId,   // Donor ID
-    createdAt: donation.createdAt, // Creation Date
+    donorId: donation.userId,   // Donor ID
+    createdAt: donation.claimedAt, // Creation Date
   }));
 };
 
