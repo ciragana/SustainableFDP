@@ -37,8 +37,30 @@ export const claimedDonations = async () => {
   }
 };
 
+const resolveReferences = (data) => {
+  const itemMap = new Map();
+
+  // First pass: create a map of items
+  data.forEach((item) => {
+    if (!item.$ref) {
+      itemMap.set(item.$id, item);
+    }
+  });
+
+  // Second pass: resolve references
+  data.forEach((item) => {
+    if (item.$ref) {
+      const resolvedItem = itemMap.get(item.$ref);
+      Object.assign(item, resolvedItem);
+    }
+  });
+
+  return data;
+};
+
 const cleanData = (data) => {
-  return data
+  const resolvedData = resolveReferences(data);
+  return resolvedData
     .filter((claim) => claim.donation) // Ensure the donation exists
     .map((claim) => ({
       id: claim.id,
@@ -52,50 +74,11 @@ const cleanData = (data) => {
     }));
 };
 
-
-const resolveReferences = (data) => {
-  const donationMap = new Map();
-  const userMap = new Map();
-
-  // First pass: create maps for donations and users
-  data.forEach((donationClaim) => {
-    if (donationClaim.donation && donationClaim.donation.$id) {
-      donationMap.set(donationClaim.donation.$id, donationClaim.donation);
-    }
-    if (donationClaim.user && donationClaim.user.$id) {
-      userMap.set(donationClaim.user.$id, donationClaim.user);
-    }
-  });
-
-  // Second pass: resolve $ref references
-  data.forEach((donationClaim) => {
-    if (donationClaim.donation && donationClaim.donation.$ref) {
-      donationClaim.donation = donationMap.get(donationClaim.donation.$ref);
-    }
-
-    if (donationClaim.user && donationClaim.user.$ref) {
-      donationClaim.user = userMap.get(donationClaim.user.$ref);
-    }
-
-    // Resolve nested donations in donationClaims
-    if (donationClaim.donation && donationClaim.donation.donationClaims) {
-      donationClaim.donation.donationClaims.$values = donationClaim.donation.donationClaims.$values.map((nestedClaim) => {
-        if (nestedClaim.$ref) {
-          nestedClaim = donationMap.get(nestedClaim.$ref);
-        }
-        return nestedClaim;
-      });
-    }
-  });
-
-  return data;
-};
-
 export const fetchClaimedDonations = async () => {
   try {
     const response = await claimedDonations(); // API call
-    const cleanedDonations = resolveReferences(response.$values); // Resolve references
-    return cleanedDonations; // Return resolved data
+    const cleanedDonations = cleanData(response);
+    return cleanedDonations; // Return cleaned data
   } catch (error) {
     console.error('Failed to fetch claimed donations:', error);
     throw error;
