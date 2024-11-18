@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Dashboard from './components/Dashboard';
+import UsersPanel from './components/UsersPanel';
 import AdminPanel from './components/AdminPanel';
 import Menubar from './components/Menubar';
 import PrivateRoute from './utils/PrivateRoute';
@@ -30,6 +31,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/my-donations" element={
+            <PrivateRoute>
+              <UsersPanel />
+            </PrivateRoute>
+          } />
           <Route path="/donate" element={
             <PrivateRoute>
               <DonateForm />
