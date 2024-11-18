@@ -56,7 +56,6 @@ function Menubar({ logo }) {
               <>
                 <span className="mr-4 text-sm font-medium text-gray-800 dark:text-white flex items-center">
                   <Avatar placeholderInitials={getInitials(role)} rounded />
-                  {role}
                 </span>
                 <Button
                   onClick={handleLogout}
